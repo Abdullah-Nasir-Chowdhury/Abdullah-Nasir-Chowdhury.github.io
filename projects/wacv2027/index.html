@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Do We Still Need Rotation-Invariant Architectures? A Statistical Robustness Benchmark for Point Cloud Classification</title>
+  <meta name="description" content="WACV 2027. A statistically powered robustness benchmark of 10 point cloud architectures across 5 domains under pose, noise, and occlusion, with the pcrobust package.">
+  <meta property="og:title" content="Do We Still Need Rotation-Invariant Architectures?">
+  <meta property="og:description" content="A Statistical Robustness Benchmark for Point Cloud Classification (WACV 2027)">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdullah-nasir-chowdhury.github.io/projects/wacv2027/">
+  <meta property="og:image" content="https://abdullah-nasir-chowdhury.github.io/projects/wacv2027/assets/tradeoff_scatter.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <h1>Do We Still Need Rotation-Invariant Architectures? A Statistical Robustness Benchmark for Point Cloud Classification</h1>
+  <p class="venue">Winter Conference on Applications of Computer Vision (WACV 2027)</p>
+  <p class="authors">Abdulla Nasir Chowdhury, Gulpi Qorik Oktagalu Pratamasunu, Kazuhiro Fukui</p>
+  <p class="affiliations">University of Tsukuba</p>
+  <nav class="links" aria-label="Paper resources">
+    <span class="pill disabled" title="Link added once the proceedings are online"><i class="fa-solid fa-file-pdf"></i> Paper (soon)</span>
+    <a class="pill" href="https://github.com/Abdullah-Nasir-Chowdhury/pcrobust"><i class="fa-brands fa-github"></i> Code</a>
+    <a class="pill" href="https://pypi.org/project/pcrobust/"><i class="fa-brands fa-python"></i> PyPI</a>
+    <a class="pill" href="https://github.com/Abdullah-Nasir-Chowdhury/pcrobust/releases/tag/v1.0.0"><i class="fa-solid fa-cube"></i> Checkpoints</a>
+    <a class="pill" href="https://doi.org/10.5281/zenodo.23847450"><i class="fa-solid fa-box-archive"></i> Zenodo</a>
+  </nav>
+</header>
+
+<main>
+  <figure class="teaser">
+    <img src="assets/tradeoff_scatter.png" width="667" height="567" alt="Scatter plot of mean noise drift against mean pose drift for the 10 backbones. RI and equivariant models sit near zero pose drift with high noise drift; most standard backbones sit at higher pose drift and lower noise drift.">
+    <figcaption>The pose/noise trade-off measured in this paper. Each point is one backbone: mean embedding drift <i>D</i> across all 5 domains, with pose pooled over the three single-axis rotations. No backbone reaches the bottom-left corner.</figcaption>
+  </figure>
+
+  <section>
+    <h2>Abstract</h2>
+    <p class="abstract">A substantial line of work builds rotation invariance directly into point cloud architectures. We benchmark 10 architectures (PointNet, PointNet++, DGCNN, RIConv, RIConv++, RISurConv, PointMLP, PointTransformer, and the equivariant VN-PointNet and VN-DGCNN) across 5 domains under pose, noise, and occlusion, and analyze the results with confirmatory hypothesis tests rather than point estimates. The three rotation-invariant (RI) architectures achieve the best pose robustness but rank among the lowest on noise robustness in 4 of 5 domains. We ask whether this cost is intrinsic to invariance or specific to how invariance is obtained. We retrain all 10 architectures unchanged, with a simple invariance loss on the embedding and three training seeds each, and evaluate all models on the independently designed ModelNet40-C. Invariance training transfers narrowly but reliably. It improves exactly the corruption families its perturbations target wherever the baseline has headroom (mean occlusion +10.5, lidar +13.4 percentage points of accuracy). At matched training budget the best standard backbone and the best RI architecture end on par on unseen corruptions (within 2.5 percentage points in every seed), and invariance-trained RIConv++ is the most seed-stable top model. Once rotation augmentation is widened, standard backbones concede only a flat, angle-independent accuracy offset under full-sphere rotation. We release the benchmark along with a package for analyzing point cloud robustness and reproducing our results.</p>
+  </section>
+
+  <section>
+    <h2>The benchmark</h2>
+    <p>Three perturbations, each at five severity levels, applied to 1024-point clouds from five domains. Three of the five levels are shown here.</p>
+    <div class="strip-group">
+      <h3>Pose <span>rotation angle</span></h3>
+      <div class="strip">
+        <figure><img src="assets/pose_40.png" width="360" height="360" loading="lazy" alt="Chair rotated 40 degrees"><figcaption>40&deg;</figcaption></figure>
+        <figure><img src="assets/pose_80.png" width="360" height="360" loading="lazy" alt="Chair rotated 80 degrees"><figcaption>80&deg;</figcaption></figure>
+        <figure><img src="assets/pose_120.png" width="360" height="360" loading="lazy" alt="Chair rotated 120 degrees"><figcaption>120&deg;</figcaption></figure>
+      </div>
+    </div>
+    <div class="strip-group">
+      <h3>Noise <span>Gaussian &sigma;</span></h3>
+      <div class="strip">
+        <figure><img src="assets/noise_0_005.png" width="360" height="360" loading="lazy" alt="Chair with noise sigma 0.005"><figcaption>0.005</figcaption></figure>
+        <figure><img src="assets/noise_0_02.png" width="360" height="360" loading="lazy" alt="Chair with noise sigma 0.02"><figcaption>0.02</figcaption></figure>
+        <figure><img src="assets/noise_0_05.png" width="360" height="360" loading="lazy" alt="Chair with noise sigma 0.05"><figcaption>0.05</figcaption></figure>
+      </div>
+    </div>
+    <div class="strip-group">
+      <h3>Occlusion <span>camera distance multiplier; dark points are kept, light points removed</span></h3>
+      <div class="strip">
+        <figure><img src="assets/occ_0_3.png" width="360" height="360" loading="lazy" alt="Chair under hidden point removal, camera multiplier 0.3"><figcaption>0.3</figcaption></figure>
+        <figure><img src="assets/occ_1_2.png" width="360" height="360" loading="lazy" alt="Chair under hidden point removal, camera multiplier 1.2"><figcaption>1.2</figcaption></figure>
+        <figure><img src="assets/occ_6_0.png" width="360" height="360" loading="lazy" alt="Chair under hidden point removal, camera multiplier 6.0"><figcaption>6.0</figcaption></figure>
+      </div>
+    </div>
+    <div class="strip-group">
+      <h3>Domains</h3>
+      <div class="strip five">
+        <figure><img src="assets/ds_modelnet40.png" width="360" height="360" loading="lazy" alt="ModelNet40 sample"><figcaption>ModelNet40<br><small>synthetic CAD</small></figcaption></figure>
+        <figure><img src="assets/ds_shapenet.png" width="360" height="360" loading="lazy" alt="ShapeNet sample"><figcaption>ShapeNet<br><small>synthetic CAD</small></figcaption></figure>
+        <figure><img src="assets/ds_abo.png" width="360" height="360" loading="lazy" alt="ABO sample"><figcaption>ABO<br><small>product scans</small></figcaption></figure>
+        <figure><img src="assets/ds_scanobjectnn.png" width="360" height="360" loading="lazy" alt="ScanObjectNN sample"><figcaption>ScanObjectNN<br><small>real indoor scans</small></figcaption></figure>
+        <figure><img src="assets/ds_s3dis.png" width="360" height="360" loading="lazy" alt="S3DIS sample"><figcaption>S3DIS<br><small>real building scans</small></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    <figure class="wide">
+      <img src="assets/severity_pose_noise_occlusion_pooled.png" width="3097" height="917" loading="lazy" alt="Three panels of severity curves for pose, noise, and occlusion, by architecture family.">
+      <figcaption>Severity scaling for the standard (blue), RI (green), and equivariant (orange) families. Lower is better. Bold lines are the mean of the 5 domain-level family means, and thin lines are individual domains. The RI and equivariant families' advantage on pose and disadvantage on noise hold at every severity level. Occlusion shows no comparable family-level pattern.</figcaption>
+    </figure>
+    <figure class="narrow">
+      <img src="assets/severity_resolved_transfer.png" width="666" height="444" loading="lazy" alt="Two panels showing accuracy gain and headroom by ModelNet40-C severity for lidar and occlusion.">
+      <figcaption>Severity-resolved transfer, averaged over all 10 architectures: accuracy gain (left) and headroom (right) by ModelNet40-C severity for the two target corruption types. Gains are severity-stable. Headroom rises at the harshest severity without the gains following.</figcaption>
+    </figure>
+    <figure class="narrow">
+      <img src="assets/pose270_rotation_sweep.png" width="842" height="854" loading="lazy" alt="Four panels of classification accuracy against rotation angle over 360 degrees for yaw, tilt, roll, and free SO(3).">
+      <figcaption>Classification accuracy at 10-degree resolution through the full 360-degree sweep, with the five standard backbones retrained with pose augmentation widened to &plusmn;270 degrees (all 300 held-out ModelNet40 test instances). The RI family holds flat bands at every angle on every axis. The widened-augmentation backbones hold flat bands of their own below the RI ceiling, showing offsets rather than troughs.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Package</h2>
+    <p><a href="https://github.com/Abdullah-Nasir-Chowdhury/pcrobust">pcrobust</a> packages the corruption generators, the 10 architectures, the evaluation protocol, the statistical pipeline, the training recipes, and all 193 trained checkpoints. The version evaluated in the paper is v1.0.0.</p>
+    <pre><code>pip install pcrobust
+
+# Rebuild a paper table from the bundled data and check every number (no GPU)
+pcrobust reproduce tab:noise --compare-paper</code></pre>
+    <pre><code>import numpy as np
+import pcrobust
+
+pts = np.random.rand(1024, 3).astype(np.float32)
+occluded = pcrobust.corrupt(pts, "occlusion", severity=3)
+
+# Checkpoints download on first use and are verified by SHA256
+model, classes = pcrobust.load_model("modelnet40/riconvpp_invreg_rep1.pth")</code></pre>
+    <p class="note">MIT for code. Checkpoints and result CSVs: CC BY 4.0.</p>
+  </section>
+
+  <section>
+    <h2>BibTeX</h2>
+    <div class="bibtex">
+      <button type="button" id="copy-bib">Copy</button>
+      <pre><code id="bib">@inproceedings{chowdhury2027rotation,
+  title={Do We Still Need Rotation-Invariant Architectures? A Statistical Robustness Benchmark for Point Cloud Classification},
+  author={Chowdhury, Abdulla Nasir and Pratamasunu, Gulpi Qorik Oktagalu and Fukui, Kazuhiro},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)},
+  year={2027}
+}</code></pre>
+    </div>
+  </section>
+</main>
+
+<footer>Page layout follows the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.</footer>
+
+<script>
+  document.getElementById('copy-bib').addEventListener('click', function () {
+    var button = this;
+    navigator.clipboard.writeText(document.getElementById('bib').textContent).then(function () {
+      button.textContent = 'Copied';
+      setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>
