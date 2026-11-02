@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subspace Representations for Synthetic-to-Real Transfer in 3-D Surface Inspection</title>
+  <meta name="description" content="ACCV 2026 Workshop. What subspace representations contribute when an inspection model trained on synthetic defects meets real scans, measured on MVTec 3D-AD and Real3D-AD.">
+  <meta property="og:title" content="Subspace Representations for Synthetic-to-Real Transfer in 3-D Surface Inspection">
+  <meta property="og:description" content="ACCV 2026 Workshop on Subspaces in the Era of Foundation Models">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://abdullah-nasir-chowdhury.github.io/projects/accv2026/">
+  <meta property="og:image" content="https://abdullah-nasir-chowdhury.github.io/projects/accv2026/assets/fig_qualitative.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <h1>Subspace Representations for Synthetic-to-Real Transfer in 3-D Surface Inspection</h1>
+  <p class="venue">ACCV 2026 Workshop on Subspaces in the Era of Foundation Models</p>
+  <p class="authors">Abdulla Nasir Chowdhury, Naish Ibrahim, Gulpi Qorik Oktagalu Pratamasunu, Kazuhiro Fukui</p>
+  <p class="affiliations">University of Tsukuba</p>
+  <nav class="links" aria-label="Paper resources">
+    <span class="pill disabled" title="Link added once the arXiv version is online"><i class="fa-solid fa-file-pdf"></i> arXiv (soon)</span>
+    <a class="pill" href="https://github.com/Abdullah-Nasir-Chowdhury/subspace-surface-inspection"><i class="fa-brands fa-github"></i> Code</a>
+    <a class="pill" href="https://github.com/Abdullah-Nasir-Chowdhury/subspace-surface-inspection/releases/tag/v1.0"><i class="fa-solid fa-cube"></i> Checkpoint</a>
+  </nav>
+</header>
+
+<main>
+  <figure class="wide">
+    <img src="assets/fig_qualitative.png" width="1584" height="638" alt="Two Real3D-AD objects with a sink defect, a car and a toffee, each shown five times with points colored by a different score: the raw point-to-template distance, the local nominal subspace on DentNet features, the same normalized, the uncentered subspace projected onto the generalized difference subspace on PointNet++ features, and the ground truth.">
+    <figcaption>Two pre-registered Real3D-AD items with a sink (car, top, and toffees, bottom). (a) Raw point-to-template distance, (b) local nominal subspace on DentNet features, (c) the same normalized by the templates' leave-one-out disagreement, (d) uncentered subspace projected onto the GDS (<i>R</i>=1) on PointNet++ features, (e) ground truth. The red circle marks the highest-scoring seed. It lands 5 to 19 mm from the defect under (a) and (b) and within 0.6 mm under (c) and (d).</figcaption>
+  </figure>
+
+  <section>
+    <h2>Abstract</h2>
+    <p class="abstract">This paper studies what subspace representations contribute to synthetic-to-real transfer in 3-D surface inspection, where models learn from synthetic defects and the only real data before deployment are scans of good parts. We use three classical constructions as instruments: the nearest-subspace classifier, one-class template subspaces and the generalized difference subspace (GDS). On 1,197 MVTec 3D-AD scans without target annotation we find that every decision rule ranks real defects at a similar window AUC, that image-level detection stays at chance, and that no rule keeps its in-domain threshold. We show that the margin of a nearest-subspace rule moves by at most the part of the feature shift outside its class subspaces, and that this leakage, measured from unlabeled good scans, bounds the displacement observed on unseen scans. On 597 Real3D-AD objects, a one-class subspace of registered templates evaluated at every location on frozen features reaches point AUROC 0.957 on pre-registered scans and a category-mean object AUROC of 78 to 81 with no training on the benchmark. Our results suggest that a subspace helps under shift in proportion to the shift it spans, and that in reference-based inspection the reference and its registration matter more than the subspace.</p>
+  </section>
+
+  <section>
+    <h2>The subspace as a classifier</h2>
+    <p>Encoders are trained on synthetic dents only: DentNet, a U-Net on residual height images, and PointNet++ on the same windows as point sets. Frozen DINOv2 serves as a foundation-model reference. Each decision rule is fitted on synthetic windows and applied unchanged to the 1,197 MVTec 3D-AD test scans, with no target annotation.</p>
+    <div class="table-wrap">
+      <table class="results">
+        <caption>MVTec 3D-AD at the synthetic pitch, means over the ten classes. Good %: good test windows flagged at the in-domain threshold. Shift: displacement of the margin under the measured feature shift, in in-domain standard deviations. Excerpt of Table 1 in the paper.</caption>
+        <thead>
+          <tr><th>Encoder</th><th>Rule</th><th>Window AUC</th><th>Pixel AUROC</th><th>Image AUROC</th><th>Good %</th><th>Shift (&sigma;)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td>DentNet 1024-D</td><td>nearest subspace</td><td>0.837</td><td>0.808</td><td>0.495</td><td>72</td><td>+4.75</td></tr>
+          <tr><td></td><td>nearest mean</td><td>0.829</td><td>0.814</td><td>0.548</td><td>54</td><td>+3.08</td></tr>
+          <tr><td></td><td>logistic</td><td>0.837</td><td>0.808</td><td>0.514</td><td>99</td><td>+14.90</td></tr>
+          <tr><td></td><td>GDS, <i>R</i>=5</td><td>0.823</td><td>0.818</td><td>0.534</td><td>77</td><td>+2.71</td></tr>
+          <tr class="group"><td>DINOv2 1024-D</td><td>nearest subspace</td><td>0.814</td><td>0.785</td><td>0.479</td><td>100</td><td>+1.53</td></tr>
+          <tr><td></td><td>nearest mean</td><td>0.811</td><td>0.777</td><td>0.539</td><td>68</td><td>+1.43</td></tr>
+          <tr><td></td><td>logistic</td><td>0.825</td><td>0.794</td><td>0.513</td><td>100</td><td>+2.96</td></tr>
+          <tr><td></td><td>GDS, <i>R</i>=1</td><td>0.805</td><td>0.774</td><td>0.526</td><td>81</td><td>+1.09</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The rules rank defects alike. They differ in how far the operating point moves. The nearest-subspace margin moves only with the part of the shift that leaves the class subspaces. That leakage can be measured on unlabeled good scans before deployment.</p>
+    <figure class="wide">
+      <img src="assets/fig_leak.png" width="1417" height="498" loading="lazy" alt="Two scatter plots, one point per encoder and MVTec 3D-AD class. Left: label-free leakage against the displacement of the mean margin on good test scans. Right: displacement against the spread of good test margins, colored by the flagged fraction of good windows.">
+      <figcaption>The leakage diagnostic, nearest-subspace rule, one point per encoder and class at the synthetic pitch (filled) and the defect scale (hollow). (a) The label-free leakage from the good training scans of a class against the displacement of the mean margin on its good test scans. (b) Displacement against the spread of the good test margins, colored by the flagged fraction of good windows.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>The subspace as a model of the good parts</h2>
+    <p>On Real3D-AD a one-class subspace of registered templates is fitted at every location on frozen features. Nothing is trained on the benchmark.</p>
+    <div class="table-wrap">
+      <table class="results">
+        <caption>Real3D-AD object-level AUROC (%), mean over the twelve categories, every test item (597), item-clustered 95% intervals. Excerpt of Table 2 in the paper, which lists every published method and the covered and pre-registered columns.</caption>
+        <thead>
+          <tr><th>Method</th><th></th><th>12 cat., max</th><th>95% interval</th></tr>
+        </thead>
+        <tbody>
+          <tr class="group"><td>Reg3D-AD</td><td>published</td><td>70.4</td><td class="ci"></td></tr>
+          <tr><td>PO3AD</td><td>published</td><td>76.6</td><td class="ci"></td></tr>
+          <tr><td>Reg2Inv</td><td>published</td><td>78.0</td><td class="ci"></td></tr>
+          <tr><td>Template3D-AD</td><td>published</td><td>84.4</td><td class="ci"></td></tr>
+          <tr><td>PO3AD + AF3AD</td><td>published</td><td>85.2</td><td class="ci"></td></tr>
+          <tr><td>PointAD</td><td>zero-shot</td><td>74.8</td><td class="ci"></td></tr>
+          <tr><td>GS-CLIP</td><td>zero-shot</td><td>76.4</td><td class="ci"></td></tr>
+          <tr class="group"><td>Point-to-template distance, 2.5 mm</td><td>ours</td><td>76.4</td><td class="ci"></td></tr>
+          <tr><td>Local nominal subspace, DentNet, uncentered, GDS <i>R</i>=1, normalized</td><td>ours</td><td>78.8</td><td class="ci">[75.7, 82.0]</td></tr>
+          <tr class="ours"><td>Local nominal subspace, PointNet++, uncentered, GDS <i>R</i>=1, normalized</td><td>ours</td><td>81.0</td><td class="ci">[77.8, 84.1]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>A centred local subspace on DentNet features reaches point AUROC 0.957 on the five pre-registered categories. Across the variants the reference and its registration move the result more than the choice of subspace does.</p>
+  </section>
+
+  <section>
+    <h2>Code</h2>
+    <p>The <a href="https://github.com/Abdullah-Nasir-Chowdhury/subspace-surface-inspection">repository</a> holds the full pipeline and the result files every number in the paper is read from, with a table that maps each result to its script. The trained DentNet weights are attached to the v1.0 release.</p>
+    <pre><code>git clone https://github.com/Abdullah-Nasir-Chowdhury/subspace-surface-inspection ~/subspace-surface-inspection
+cd ~/subspace-surface-inspection
+pip install -r requirements.txt
+
+bash accv_pipeline_mvtec/run_mvtec.sh    # synthetic to MVTec 3D-AD</code></pre>
+    <p class="note">GPL-3.0, inherited from the original <a href="https://github.com/decadenza/DentNet">DentNet</a> by Lafiosca et al. MVTec 3D-AD and Real3D-AD are downloaded from their authors.</p>
+  </section>
+
+  <section>
+    <h2>BibTeX</h2>
+    <div class="bibtex">
+      <button type="button" id="copy-bib">Copy</button>
+      <pre><code id="bib">@inproceedings{chowdhury2026subspace,
+  title={Subspace Representations for Synthetic-to-Real Transfer in 3-D Surface Inspection},
+  author={Chowdhury, Abdulla Nasir and Ibrahim, Naish and Pratamasunu, Gulpi Qorik Oktagalu and Fukui, Kazuhiro},
+  booktitle={ACCV 2026 Workshop on Subspaces in the Era of Foundation Models},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+</main>
+
+<footer>Page layout follows the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> project page.</footer>
+
+<script>
+  document.getElementById('copy-bib').addEventListener('click', function () {
+    var button = this;
+    navigator.clipboard.writeText(document.getElementById('bib').textContent).then(function () {
+      button.textContent = 'Copied';
+      setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+    });
+  });
+</script>
+</body>
+</html>
