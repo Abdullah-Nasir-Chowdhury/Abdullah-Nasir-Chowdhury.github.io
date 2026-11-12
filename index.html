@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chowdhury Abdulla Nasir</title>
+<meta name="description" content="Chowdhury Abdulla Nasir is a master's student in the Computer Vision Laboratory at the University of Tsukuba, working on 3D point cloud robustness and synthetic-to-real transfer.">
+<meta name="author" content="Chowdhury Abdulla Nasir">
+<meta property="og:title" content="Chowdhury Abdulla Nasir">
+<meta property="og:description" content="Master's student in computer vision at the University of Tsukuba. 3D point clouds, robustness, synthetic-to-real transfer.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://abdullah-nasir-chowdhury.github.io/">
+<link rel="canonical" href="https://abdullah-nasir-chowdhury.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500|Noto+Sans:400,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<main>
+
+<header class="intro">
+  <h1>Chowdhury Abdulla Nasir</h1>
+  <p class="role">Master's student, Computer Vision Laboratory, University of Tsukuba</p>
+
+  <p>
+    I am a master's student in computer science at the University of Tsukuba, where I work in the
+    Computer Vision Laboratory.
+    I study how 3D point cloud models behave when the data changes: under rotation, noise and occlusion,
+    and when a model trained on synthetic data meets real scans.
+  </p>
+  <p>
+    Most of my work is careful measurement. I build benchmarks, run the statistics, and release the code
+    and checkpoints so the numbers can be checked. Before Tsukuba I studied electrical and electronic
+    engineering at Leading University in Sylhet, Bangladesh.
+  </p>
+
+  <p class="links">
+    <a href="mailto:s2620717@u.tsukuba.ac.jp">Email</a>
+    <a href="cv.pdf">CV</a>
+    <a href="https://scholar.google.com/citations?user=tHsPqpkAAAAJ&hl=en">Google Scholar</a>
+    <a href="https://github.com/Abdullah-Nasir-Chowdhury">GitHub</a>
+    <a href="https://www.linkedin.com/in/anc19990/">LinkedIn</a>
+  </p>
+</header>
+
+<section>
+  <h2>Research</h2>
+  <p>
+    My interests are 3D computer vision, point cloud understanding, robustness under distribution shift,
+    synthetic-to-real transfer, and the statistical evaluation of deep learning models.
+  </p>
+</section>
+
+<section>
+  <h2>Publications</h2>
+
+  <article class="pub">
+    <a class="thumb" href="projects/wacv2027/"><img src="projects/wacv2027/assets/tradeoff_scatter.png" alt="Pose versus noise robustness for ten point cloud backbones" loading="lazy"></a>
+    <div>
+      <h3><a href="projects/wacv2027/">Do We Still Need Rotation-Invariant Architectures? A Statistical Robustness Benchmark for Point Cloud Classification</a></h3>
+      <p class="authors"><strong>Abdulla Nasir Chowdhury</strong> et al.</p>
+      <p class="venue">WACV 2027, Datasets Track</p>
+      <p class="pub-links">
+        <a href="projects/wacv2027/">Project page</a>
+        <a href="https://arxiv.org/abs/2611.03952">arXiv</a>
+        <a href="https://github.com/Abdullah-Nasir-Chowdhury/pcrobust">Code</a>
+        <a href="https://pypi.org/project/pcrobust/">PyPI</a>
+      </p>
+      <p class="summary">
+        A benchmark of 10 architectures across 5 domains under pose, noise and occlusion, analysed with
+        hypothesis tests. Rotation-invariant designs are the most robust to pose and among the least robust
+        to noise. With a simple invariance loss, standard backbones end on par with them on unseen corruptions.
+      </p>
+    </div>
+  </article>
+
+  <article class="pub">
+    <a class="thumb" href="projects/accv2026/"><img src="projects/accv2026/assets/fig_leak.png" alt="Leakage diagnostic for the nearest-subspace rule" loading="lazy"></a>
+    <div>
+      <h3><a href="projects/accv2026/">Subspace Representations for Synthetic-to-Real Transfer in 3-D Surface Inspection</a></h3>
+      <p class="authors"><strong>Abdulla Nasir Chowdhury</strong> et al.</p>
+      <p class="venue">ACCV 2026 Workshop on Subspaces in the Era of Foundation Models</p>
+      <p class="pub-links">
+        <a href="projects/accv2026/">Project page</a>
+        <a href="https://arxiv.org/abs/2611.02744">arXiv</a>
+        <a href="https://github.com/Abdullah-Nasir-Chowdhury/subspace-surface-inspection">Code</a>
+      </p>
+      <p class="summary">
+        What subspace methods contribute when a defect detector trained on synthetic dents is applied to real
+        scans. A one-class subspace of registered templates reaches point AUROC 0.957 on pre-registered
+        Real3D-AD scans with no training on the benchmark.
+      </p>
+    </div>
+  </article>
+
+  <h3 class="sub">Earlier work</h3>
+  <ul class="plain">
+    <li>
+      <a href="https://ieeexplore.ieee.org/document/11172005">Prototype and Simulation of a Real-Time GPS and PTS Architecture</a><br>
+      <span class="authors"><strong>A.N. Chowdhury</strong>, A.M. Nihad, S.M.P. Mamun, A.A. Sami, A. Islam, K. Fahmiduzzaman</span><br>
+      <span class="venue">QPAIN 2025</span>
+    </li>
+    <li>
+      <a href="https://ieeexplore.ieee.org/document/10969286">Performance Analysis of PyTesseract and EasyOCR for Bangla Optical Character Recognition on the Novel Bangla CrossHair Dataset</a><br>
+      <span class="authors"><strong>A.N. Chowdhury</strong>, A.A. Sami, S.M.P. Mamun, S. Absar, F. Rahman, M.S.R. Kohinoor</span><br>
+      <span class="venue">ISACC 2025</span>
+    </li>
+    <li>
+      <a href="https://www.researchgate.net/publication/400360433_Code_Poisoning_Through_Misleading_Comments_Jailbreaking_Large_Language_Models_via_Contextual_Deception">Code Poisoning Through Misleading Comments: Jailbreaking Large Language Models via Contextual Deception</a><br>
+      <span class="authors">A.A. Sami, G. Debnath, R. Dey, <strong>A.N. Chowdhury</strong></span><br>
+      <span class="venue">ICCIT 2025</span>
+    </li>
+    <li>
+      <a href="https://ieeexplore.ieee.org/document/10543675">ALPR: ResNet50-powered Bangla License Plate Detection and OCR using Root Mean Square Prop Optimizer and Linear SVM Classifier</a><br>
+      <span class="authors"><strong>A.N. Chowdhury</strong>, S.P. Summit, M.F.A. Laskar, G.M. Chowdhury, I.A. Chowdhury, M. Hasan</span><br>
+      <span class="venue">I2CT 2024</span>
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Software</h2>
+  <ul class="plain">
+    <li>
+      <a href="https://github.com/Abdullah-Nasir-Chowdhury/pcrobust"><strong>pcrobust</strong></a>
+      <span class="meta">Python, MIT</span><br>
+      Robustness evaluation for point cloud classifiers: corruption generators, 10 architectures, the
+      statistical pipeline and 193 trained checkpoints from the WACV 2027 paper.
+      <code>pip install pcrobust</code>
+    </li>
+    <li>
+      <a href="https://github.com/Abdullah-Nasir-Chowdhury/realtime-detection-tracking"><strong>Real-time detection and tracking</strong></a>
+      <span class="meta"><a href="https://dtrack-727953311125.asia-northeast1.run.app/demo">demo</a></span><br>
+      YOLO11 and ByteTrack for multi-object tracking, exported to ONNX and TensorRT with a measured CPU
+      and GPU latency benchmark. Runs on Google Cloud Run.
+    </li>
+    <li>
+      <a href="https://github.com/Abdullah-Nasir-Chowdhury/pointcloud-inspection-api"><strong>Point cloud inspection API</strong></a>
+      <span class="meta"><a href="https://pcinspect-727953311125.asia-northeast1.run.app/demo">demo</a></span><br>
+      Unsupervised 3D defect detection that needs no labelled defects. FPFH descriptors are matched against
+      a FAISS memory bank of defect-free parts, served with FastAPI and benchmarked on MVTec 3D-AD.
+    </li>
+  </ul>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <ul class="plain">
+    <li>
+      <strong>University of Tsukuba</strong>, Japan <span class="meta">2026 to present</span><br>
+      M.Sc. in Computer Science, Computer Vision Laboratory. Research student from 2025 to 2026.
+    </li>
+    <li>
+      <strong>Leading University</strong>, Sylhet, Bangladesh <span class="meta">2019 to 2023</span><br>
+      B.Sc. in Electrical and Electronic Engineering, CGPA 3.93 / 4.00
+    </li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <p>Tsukuba, Japan · <a href="mailto:s2620717@u.tsukuba.ac.jp">s2620717@u.tsukuba.ac.jp</a></p>
+</footer>
+
+</body>
+</html>
